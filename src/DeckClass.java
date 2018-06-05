@@ -40,7 +40,6 @@ public class DeckClass extends SuitClass {
 	}
 
 	public CardClass dealCard() {
-
 		return (CardClass) deck.lastElement();
 
 	}

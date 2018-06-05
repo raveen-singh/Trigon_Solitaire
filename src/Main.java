@@ -4,7 +4,7 @@ import hsa.Console;
 
 import java.applet.*;
 
-public class Main extends Applet implements ActionListener, MouseListener, MouseMotionListener {
+public class Main extends Applet implements MouseListener, MouseMotionListener {
 
 	public Main() {
 		// TODO Auto-generated constructor stub
@@ -14,13 +14,13 @@ public class Main extends Applet implements ActionListener, MouseListener, Mouse
 	Image offscreen;
 	Dimension dim;
 	int curX, curY;
-	int deal;
 	DeckClass d1 = new DeckClass('s');
 	PileClass waste = new PileClass();
 	TopCardClass top = new TopCardClass();
 	TableauClass[] tableau = new TableauClass[7];
 	FoundationClass[] foundation = new FoundationClass[4];
 	Color bgColor = (new Color(28, 111, 49));
+	boolean Movable;
 
 	public void init() {
 		bufferGraphics = getGraphics();
@@ -55,12 +55,12 @@ public class Main extends Applet implements ActionListener, MouseListener, Mouse
 		int j = 0;
 
 		for (int i = 0; i < 7; i++) {
-			tableau[i].setCentre(100 + j, 200);
+			tableau[i].setCentre(100 + j, 250);
 			tableau[i].setColor(Color.blue);
 			j += 100;
 		}
 
-		d1.setCentre(80, 500);
+		d1.setCentre(80, 75);
 		waste.setCentre(170, 520);
 	}
 
@@ -90,25 +90,40 @@ public class Main extends Applet implements ActionListener, MouseListener, Mouse
 	public void update(Graphics g) {
 		paint(g);
 	}
-	 CardClass card = (CardClass) waste.dealCard();
 
 	public void mouseDragged(MouseEvent e) {
 		// TODO Auto-generated method stub
-		if (card.isPointInside(e.getX(), e.getY()) == true) {
-			System.out.println("HELLO");
-			card.setCentre(e.getX(), e.getY());
-			repaint();
-			// for (int i = 0; i < 4; i++) {
-			// if (foundation[i].isPointInside(e.getX(), e.getY()) == true &&
-			// foundation[i].isValid(card)) {
-			// foundation[i].addCard(card);
-			// waste.removeLast();
-			// repaint();
-			// }
-			//
-			// }
-		}
+		if (waste.deckSize() > 0) {
+			CardClass card = (CardClass) waste.dealCard();
 
+			if (card.isPointInside(e.getX(), e.getY())) {
+				System.out.println("HELLO");
+				card.setCentre(e.getX(), e.getY());
+				repaint();
+				// for (int i = 0; i < 4; i++) {
+				// if (foundation[i].isPointInside(e.getX(), e.getY()) == true &&
+				// foundation[i].isValid(card)) {
+				// foundation[i].addCard(card);
+				// waste.removeLast();
+				// repaint();
+				// }
+				//
+				// }
+				// public void mouseDragged(MouseEvent e) {
+				// if (hand.isDraggable()) {
+				// hand.setCenter(e.getX(), e.getY());
+				// repaint();
+				// }
+				// }
+				// } if (waste[1].isPointInside(e.getX(), e.getY()) == true &&
+				// waste[1].getLength() > 0) {
+				// currentDeck = 0;
+				// hand.addCard(waste[1].getTopCard());
+				// waste[1].removeTopCard();
+				// hand.setDraggable(true);
+				// }
+			}
+		}
 	}
 
 	public void mouseMoved(MouseEvent e) {
@@ -141,51 +156,28 @@ public class Main extends Applet implements ActionListener, MouseListener, Mouse
 		}
 		if (d1.isPointInside(e.getX(), e.getY()) == true) {
 			if (d1.deckSize() > 0) {
-				if (deal == 0) {
-					for (int i = 0; i < 3; i++) {
-						CardClass card = d1.dealCard();
-						d1.removeLast();
-						card.setCentre(d1.getCentreX(), d1.getCentreY());
-						waste.addCard(card);
-						System.out.println(d1.deckSize());
-						System.out.println(waste.deckSize());
-						repaint();
-					}
-				}
-
-				if (deal == 1) {
-					for (int i = 0; i < 2; i++) {
-						CardClass card = d1.dealCard();
-						d1.removeLast();
-						card.setCentre(d1.getCentreX(), d1.getCentreY());
-						waste.addCard(card);
-						System.out.println(d1.deckSize());
-						repaint();
-					}
-				}
-				if (deal == 2) {
-					for (int i = 0; i < 1; i++) {
-						CardClass card = d1.dealCard();
-						d1.removeLast();
-						card.setCentre(d1.getCentreX(), d1.getCentreY());
-						waste.addCard(card);
-						System.out.println(d1.deckSize());
-						repaint();
-					}
-				}
-			}
-			if (d1.deckSize() == 0) {
-				deal += 1;
-				int k = waste.deckSize();
-				for (int i = 0; i < k; i++) {
+				for (int i = 0; i < 1; i++) {
+					CardClass card = d1.dealCard();
+					d1.removeLast();
+					card.setCentre(d1.getCentreX() + 120, d1.getCentreY() + 20);
+					waste.addCard(card);
+					System.out.println(d1.deckSize());
 					System.out.println(waste.deckSize());
-					System.out.println(i);
-
-					d1.addCard(waste.dealCard());
-					waste.removeLast();
+					repaint();
 				}
-				waste.erase(bufferGraphics);
+
 			}
+		}
+		if (d1.deckSize() == 0) {
+			int k = waste.deckSize();
+			for (int i = 0; i < k; i++) {
+				System.out.println(waste.deckSize());
+				System.out.println(i);
+
+				d1.addCard(waste.dealCard());
+				waste.removeLast();
+			}
+			waste.erase(bufferGraphics);
 		}
 	}
 

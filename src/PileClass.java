@@ -11,7 +11,7 @@ public class PileClass extends DeckClass {
 	public void draw(Graphics g) {
 		for (int i = 0; i < deck.size(); i++) {
 			CardClass card = (CardClass) deck.elementAt(i);
-			card.setCentre(getCentreX() + (i * 20), getCentreY());
+			card.setCentre(card.getCentreX(), card.getCentreY());
 			card.draw(g);
 		}
 	}
