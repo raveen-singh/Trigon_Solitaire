@@ -14,7 +14,7 @@ public class CardClass extends ShapeClass {
 	private String iFaceValue;
 	private boolean iFaceUp = true;
 	private int iSuit;
-	private String[] val = { "A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K" };
+	private String[] val = {"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
 
 	static Font f1 = new Font("SanSerif", Font.PLAIN, 16);
 

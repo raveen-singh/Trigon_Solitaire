@@ -19,6 +19,7 @@ public class DeckClass extends SuitClass {
 					CardClass card = new CardClass(i, j);
 					card.setCentre(150, 500);
 					card.setSize(3);
+					card.setFaceUp(true);
 					addCard(card, 0);
 				}
 			}
@@ -42,6 +43,10 @@ public class DeckClass extends SuitClass {
 	public CardClass dealCard() {
 		return (CardClass) deck.lastElement();
 
+	}
+	
+	public CardClass cardAt(int n) {
+		return (CardClass) deck.elementAt(n);
 	}
 
 	public void removeCard(int Pos) {
@@ -95,11 +100,6 @@ public class DeckClass extends SuitClass {
 		int j = 0;
 		for (int i = 0; i < deck.size(); i++) {
 			CardClass card = (CardClass) deck.elementAt(i);
-			if (i == deck.size() - 1) {
-				card.setFaceUp(true);
-			} else {
-				card.setFaceUp(false);
-			}
 			card.setCentre(getCentreX(), getCentreY() + j);
 			card.draw(g);
 			j += 30;
@@ -116,5 +116,12 @@ public class DeckClass extends SuitClass {
 		g.setColor(Color.white);
 		g.fillRect(CentreX - Width / 2, CentreY - Height / 2, Width + 1, Height + 1);
 		g.setColor(oldColor);
+	}
+
+	public void flipUp() {
+		if (deck.size() > 0) {
+			CardClass card = (CardClass) deck.lastElement();
+			card.setFaceUp(true);
+		}
 	}
 }

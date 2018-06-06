@@ -8,6 +8,15 @@ public abstract class ShapeClass {
 	private int iCentreX;
 	private int iCentreY;
 	private Color iColor;
+	private boolean iMovable;
+
+	public void isMovable(boolean n) {
+		iMovable = n;
+	}
+
+	public boolean getMovable() {
+		return iMovable;
+	}
 
 	public void setWidth(int iNewWidth) {
 		iWidth = iNewWidth;
