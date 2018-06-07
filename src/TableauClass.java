@@ -41,5 +41,4 @@ public class TableauClass extends DeckClass {
 			card.setFaceUp(true);
 		}
 	}
-
 }

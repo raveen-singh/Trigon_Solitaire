@@ -44,13 +44,25 @@ public class DeckClass extends SuitClass {
 		return (CardClass) deck.lastElement();
 
 	}
-	
+
 	public CardClass cardAt(int n) {
 		return (CardClass) deck.elementAt(n);
 	}
 
 	public void removeCard(int Pos) {
-		deck.remove(Pos);
+		deck.removeElementAt(Pos);
+	}
+
+	public CardClass bottomCard() {
+		return (CardClass) deck.firstElement();
+	}
+
+	public int cardPosition(CardClass c1) {
+		return deck.indexOf(c1);
+	}
+
+	public void removeBottom() {
+		deck.remove(deck.firstElement());
 	}
 
 	public void shuffle() {

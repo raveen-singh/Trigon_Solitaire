@@ -6,28 +6,16 @@ public class TopCardClass extends DeckClass {
 		// TODO Auto-generated constructor stub
 	}
 
-	public void draw(Graphics g,int n) {
-		int j = 0;
+	public void draw(Graphics g) {
 		if (deck.size() > 0) {
-			for (int i = 0; i < n; i++) {
+			for (int i = 0; i < deck.size(); i++) {
 				CardClass card = (CardClass) deck.elementAt(i);
-				card.setCentre(getCentreX(), getCentreY() + j);
+				card.setCentre(getCentreX(), getCentreY() + (i*30));
 				card.draw(g);
-				j += 30;
 				// System.out.println(card.getCentreX());
 				// System.out.println(card.getCentreX());
 
 			}
-		}
-	}
-
-	public void fanOut(Graphics g) {
-		int j = 0;
-		for (int i = 0; i < deck.size(); i++) {
-			CardClass card = (CardClass) deck.elementAt(i);
-			card.setCentre(getCentreX(), getCentreY() + j);
-			card.draw(g);
-			j += 30;
 		}
 	}
 }
