@@ -10,11 +10,8 @@ public class TopCardClass extends DeckClass {
 		if (deck.size() > 0) {
 			for (int i = 0; i < deck.size(); i++) {
 				CardClass card = (CardClass) deck.elementAt(i);
-				card.setCentre(getCentreX(), getCentreY() + (i*30));
+				card.setCentre(getCentreX(), getCentreY() + (i * 30));
 				card.draw(g);
-				// System.out.println(card.getCentreX());
-				// System.out.println(card.getCentreX());
-
 			}
 		}
 	}

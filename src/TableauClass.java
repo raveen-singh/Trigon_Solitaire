@@ -8,6 +8,9 @@ public class TableauClass extends DeckClass {
 	private String[] letter = { "K", "Q", "J", "10", "9", "8", "7", "6", "5", "4", "3", "2", "A" };
 
 	public boolean isValid(CardClass c1, CardClass c2) {
+		if (deck.size() == 0 && c1.getFaceValue() == "K") {
+			return true;
+		}
 		int k = 0;
 		int j = 0;
 		if (deck.size() > 0) {
@@ -41,4 +44,5 @@ public class TableauClass extends DeckClass {
 			card.setFaceUp(true);
 		}
 	}
+
 }
