@@ -31,9 +31,9 @@ public class TableauClass extends DeckClass {
 				return true;
 			}
 		}
-		if (deck.size() == 0 && c2.getFaceValue().equals(letter[0])) {
-			return true;
-		}
+		// if (deck.size() == 0 && c2.getFaceValue().equals(letter[0])) {
+		// return true;
+		// }
 		return false;
 
 	}
@@ -45,4 +45,10 @@ public class TableauClass extends DeckClass {
 		}
 	}
 
+	public boolean isValidEmpty(CardClass c1) {
+		if (c1.getFaceValue().equals(letter[0])) {
+			return true;
+		}
+		return false;
+	}
 }

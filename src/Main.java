@@ -27,7 +27,7 @@ public class Main extends Applet implements MouseListener, MouseMotionListener {
 
 	public void init() {
 		bufferGraphics = getGraphics();
-		d1.shuffle();
+	//	d1.shuffle();
 		setSize(800, 600);
 		setBackground(bgColor);
 		addMouseListener(this);
@@ -140,7 +140,6 @@ public class Main extends Applet implements MouseListener, MouseMotionListener {
 		for (int i = 0; i < 7; i++) {
 			if (tableau[i].deckSize() > 0) {
 				CardClass card = (CardClass) tableau[i].dealCard();
-
 				if (card.isPointInside(e.getX(), e.getY()) == true && card.isFaceUp() == true
 						&& tableau[i].cardPosition(card) == tableau[i].deckSize() - 1) {
 					oldCentreX = card.getCentreX();
@@ -157,7 +156,6 @@ public class Main extends Applet implements MouseListener, MouseMotionListener {
 		}
 		for (int i = 0; i < 7; i++) {
 			int b = tableau[i].deckSize();
-
 			for (int j = 0; j < b; j++) {
 				CardClass card = tableau[i].cardAt(j);
 				if (card.isPointInside(e.getX(), e.getY()) == true && card.isFaceUp() == true
@@ -178,6 +176,7 @@ public class Main extends Applet implements MouseListener, MouseMotionListener {
 					tab_deck = i;
 					found_deck = -1;
 					top.setCentre(e.getX(), e.getY());
+					System.out.print(top.deckSize());
 					repaint();
 				}
 			}
@@ -233,33 +232,91 @@ public class Main extends Applet implements MouseListener, MouseMotionListener {
 
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
+		int n = top.deckSize();
 		for (int i = 0; i < 7; i++) {
-			if (tableau[i].dealCard().isPointInside(top.getCentreX(), top.getCentreY()) == true) {
-				if (tableau[i].isValid(top.dealCard(), tableau[i].dealCard()) == true) {
-					tableau[i].addCard(top.dealCard());
-					if (tab_deck > -1) {
-						tableau[tab_deck].flipUp();
-						tab_deck = -1;
+			if (tableau[i].deckSize() > 0) {
+				if (tableau[i].dealCard().isPointInside(top.getCentreX(), top.getCentreY()) == true
+						&& top.deckSize() > 0) {
+					if (tableau[i].isValid(top.bottomCard(), tableau[i].dealCard()) == true) {
+						if (top.deckSize() == 1) {
+							tableau[i].addCard(top.dealCard());
+							top.removeLast();
+						}
+						if (top.deckSize() > 1) {
+							for (int j = 0; j < n; j++) {
+								top.bottomCard().setCentre(oldCentreX, oldCentreY + (j * 30));
+								tableau[tab_deck].addCard(top.cardAt(j));
+							}
+							for (int j = 0; j < n; j++) {
+								top.removeBottom();
+							}
+						}
+						if (tab_deck > -1 && tableau[tab_deck].deckSize() > 0) {
+							tableau[tab_deck].flipUp();
+							tab_deck = -1;
+						}
+						repaint();
 					}
-					top.removeLast();
-					repaint();
+				}
+			}
+			if (tableau[i].deckSize() == 0) {
+				if (tableau[i].isPointInside(top.getCentreX(), top.getCentreY()) == true && top.deckSize() > 0) {
+					if (tableau[i].isValidEmpty(top.bottomCard()) == true) {
+						for (int j = 0; j < n; j++) {
+							top.cardAt(j).setCentre(oldCentreX, oldCentreY + (j * 30));
+							tableau[tab_deck].addCard(top.cardAt(j));
+						}
+						for (int j = 0; j < n; j++) {
+							top.removeBottom();
+						}
+						if (tab_deck > -1) {
+							tableau[tab_deck].flipUp();
+							tab_deck = -1;
+						}
+						repaint();
+					}
 				}
 			}
 		}
 		for (int i = 0; i < 4; i++) {
 			if (foundation[i].isPointInside(top.getCentreX(), top.getCentreY()) == true && top.deckSize() > 0) {
-				System.out.println("catch");
-
-				if (foundation[i].isValid(top.dealCard()) == true) {
-					System.out.println("TEST");
-					foundation[i].addCard(top.dealCard());
+				if (foundation[i].isValid(top.bottomCard()) == true) {
+					foundation[i].addCard(top.bottomCard());
 					top.removeLast();
-					if (tab_deck > -1) {
+					if (tab_deck > -1 && tableau[tab_deck].deckSize() > 0) {
 						tableau[tab_deck].flipUp();
 					}
 					repaint();
 				}
-
+				if (top.deckSize() ==1) {
+					if (foundation[i].isValid(top.bottomCard()) == false) {
+						if (master_deck == 0 && top.deckSize() > 0) {
+							top.bottomCard().setCentre(oldCentreX, oldCentreY);
+							waste.addCard(top.bottomCard());
+							top.cardAt(0);
+							master_deck = -1;
+							repaint();
+						}
+						if (tab_deck > -1 && found_deck == -1 && top.deckSize() > 0) {
+							for (int j = 0; j < n; j++) {
+								top.cardAt(j).setCentre(oldCentreX, oldCentreY + (j * 30));
+								tableau[tab_deck].addCard(top.cardAt(j));
+							}
+							for (int j = 0; j < n; j++) {
+								top.removeBottom();
+							}
+							tab_deck = -1;
+							repaint();
+						}
+						if (tab_deck == -1 && found_deck > -1 && top.deckSize() > 0) {
+							top.dealCard().setCentre(oldCentreX, oldCentreY);
+							foundation[found_deck].addCard(top.dealCard());
+							top.removeLast();
+							found_deck = -1;
+							repaint();
+						}
+					}
+				}
 			}
 		}
 		int r = 0;
@@ -267,7 +324,7 @@ public class Main extends Applet implements MouseListener, MouseMotionListener {
 			if (foundation[l].isPointInside(top.getCentreX(), top.getCentreY()) == false) {
 				r += 1;
 				if (r == 4) {
-					if (master_deck == 0) {
+					if (master_deck == 0 && top.deckSize() > 0) {
 						top.dealCard().setCentre(oldCentreX, oldCentreY);
 						waste.addCard(top.dealCard());
 						top.removeLast();
@@ -275,15 +332,19 @@ public class Main extends Applet implements MouseListener, MouseMotionListener {
 						repaint();
 					}
 					if (tab_deck > -1 && found_deck == -1) {
-						top.dealCard().setCentre(oldCentreX, oldCentreY);
-						tableau[tab_deck].addCard(top.dealCard());
-						top.removeLast();
+						System.out.print(n);
+						for (int j = 0; j < n; j++) {
+							System.out.print(n);
+							top.cardAt(j).setCentre(oldCentreX, oldCentreY + (j * 30));
+							tableau[tab_deck].addCard(top.cardAt(j));
+						}
+						for (int k = 0; k < n; k++) {
+							top.removeBottom();
+						}
 						tab_deck = -1;
-						System.out.println(oldCentreX);
-						System.out.println(oldCentreY);
 						repaint();
 					}
-					if (tab_deck == -1 && found_deck > -1) {
+					if (tab_deck == -1 && found_deck > -1 && top.deckSize() > 0) {
 						top.dealCard().setCentre(oldCentreX, oldCentreY);
 						foundation[found_deck].addCard(top.dealCard());
 						top.removeLast();
@@ -294,30 +355,38 @@ public class Main extends Applet implements MouseListener, MouseMotionListener {
 			}
 		}
 		int d = 0;
+		int s = 0;
 		for (int k = 0; k < 7; k++) {
-			if (tableau[k].dealCard().isPointInside(top.getCentreX(), top.getCentreY()) == false) {
-				d += 1;
-				if (d == 7) {
-					if (master_deck == 0) {
-						top.dealCard().setCentre(oldCentreX, oldCentreY);
-						waste.addCard(top.dealCard());
-						top.removeLast();
-						master_deck = -1;
-						repaint();
-					}
-					if (tab_deck > -1 && found_deck == -1 && top.deckSize() > 0) {
-						top.dealCard().setCentre(oldCentreX, oldCentreY);
-						tableau[tab_deck].addCard(top.dealCard());
-						top.removeLast();
-						tab_deck = -1;
-						repaint();
-					}
-					if (tab_deck == -1 && found_deck > -1 && top.deckSize() > 0) {
-						top.dealCard().setCentre(oldCentreX, oldCentreY);
-						foundation[found_deck].addCard(top.dealCard());
-						top.removeLast();
-						found_deck = -1;
-						repaint();
+			if (tableau[k].deckSize() > 0) {
+				if (tableau[k].dealCard().isPointInside(top.getCentreX(), top.getCentreY()) == false) {
+					d += 1;
+					if (d == 7) {
+						if (master_deck == 0 && top.deckSize() > 0) {
+							top.dealCard().setCentre(oldCentreX, oldCentreY);
+							waste.addCard(top.dealCard());
+							top.removeLast();
+							master_deck = -1;
+							repaint();
+						}
+						if (tab_deck > -1 && found_deck == -1 && top.deckSize() > 0) {
+							for (int j = 0; j < n - 1; j++) {
+								top.cardAt(j).setCentre(oldCentreX, oldCentreY + (j * 30));
+								tableau[tab_deck].addCard(top.cardAt(j));
+							}
+							for (int l = 0; l < n - 1; l++) {
+								top.removeBottom();
+
+							}
+							tab_deck = -1;
+							repaint();
+						}
+						if (tab_deck == -1 && found_deck > -1 && top.deckSize() > 0) {
+							top.dealCard().setCentre(oldCentreX, oldCentreY);
+							foundation[found_deck].addCard(top.dealCard());
+							top.removeLast();
+							found_deck = -1;
+							repaint();
+						}
 					}
 				}
 			}
