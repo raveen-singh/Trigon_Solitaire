@@ -31,9 +31,9 @@ public class TableauClass extends DeckClass {
 				return true;
 			}
 		}
-		// if (deck.size() == 0 && c2.getFaceValue().equals(letter[0])) {
-		// return true;
-		// }
+		if (deck.size() == 0 && c2.getFaceValue().equals(letter[0])) {
+			return true;
+		}
 		return false;
 
 	}
@@ -45,25 +45,18 @@ public class TableauClass extends DeckClass {
 		}
 	}
 
-	public boolean isValidEmpty(CardClass c1) {
-		if (c1.getFaceValue().equals(letter[0])) {
+	public boolean isFlip() {
+		CardClass card = (CardClass) deck.lastElement();
+		if (card.isFaceUp() == true) {
 			return true;
 		}
 		return false;
 	}
 
-	public int isDrag() {
-		int c = 0;
-		if (deck.size() > 0) {
-			for (int i = deck.size() - 2; i >= 0; i--) {
-				CardClass card = (CardClass) cardAt(i);
-				if (card.isFaceUp()) {
-					c += 1;
-				} else {
-					break;
-				}
-			}
+	public boolean isValidEmpty(CardClass c1) {
+		if (c1.getFaceValue().equals(letter[0])) {
+			return true;
 		}
-		return c;
+		return false;
 	}
 }
