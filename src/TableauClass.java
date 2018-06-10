@@ -51,4 +51,19 @@ public class TableauClass extends DeckClass {
 		}
 		return false;
 	}
+
+	public int isDrag() {
+		int c = 0;
+		if (deck.size() > 0) {
+			for (int i = deck.size() - 2; i >= 0; i--) {
+				CardClass card = (CardClass) cardAt(i);
+				if (card.isFaceUp()) {
+					c += 1;
+				} else {
+					break;
+				}
+			}
+		}
+		return c;
+	}
 }

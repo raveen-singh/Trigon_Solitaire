@@ -109,12 +109,14 @@ public class DeckClass extends SuitClass {
 	}
 
 	public void fanOut(Graphics g) {
-		int j = 0;
-		for (int i = 0; i < deck.size(); i++) {
-			CardClass card = (CardClass) deck.elementAt(i);
-			card.setCentre(getCentreX(), getCentreY() + j);
-			card.draw(g);
-			j += 30;
+		if (deck.size() > 0) {
+			int j = 0;
+			for (int i = 0; i < deck.size(); i++) {
+				CardClass card = (CardClass) deck.elementAt(i);
+				card.setCentre(getCentreX(), getCentreY() + j);
+				card.draw(g);
+				j += 30;
+			}
 		}
 	}
 

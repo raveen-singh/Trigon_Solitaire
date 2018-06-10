@@ -14,7 +14,7 @@ public class FoundationClass extends DeckClass {
 				return true;
 			}
 		}
-		for (int i = 1; i < 12; i++) {
+		for (int i = 1; i < 13; i++) {
 			if (deck.size() == i && c1.getFaceValue() == letter[i]) {
 				CardClass card = (CardClass) deck.lastElement();
 				if (card.getSuitValue() == c1.getSuitValue()) {

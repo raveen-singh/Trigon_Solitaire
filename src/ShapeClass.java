@@ -78,4 +78,12 @@ public abstract class ShapeClass {
 		}
 		return false;
 	}
+
+	public boolean isPoint(int x, int y) {
+		if (x >= getCentreX() - getWidth() / 2 && x <= getCentreX() + getWidth() / 2
+				&& y >= getCentreY() - getHeight() / 2 && y <= (getCentreY() - getHeight() / 2) + 30) {
+			return true;
+		}
+		return false;
+	}
 }
