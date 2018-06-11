@@ -83,8 +83,6 @@ public class DeckClass extends SuitClass {
 		if (deck.size() > 0) {
 			CardClass card = (CardClass) deck.lastElement();
 			card.setCentre(getCentreX(), getCentreY());
-			card.setColor(getColor());
-			card.setSize(getHeight());
 			card.draw(g);
 		}
 	}
