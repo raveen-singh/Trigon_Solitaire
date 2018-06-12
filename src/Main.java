@@ -1,6 +1,5 @@
 import java.awt.*;
 import java.awt.event.*;
-import hsa.Console;
 
 import java.applet.*;
 
@@ -28,7 +27,7 @@ public class Main extends Applet implements MouseListener, MouseMotionListener {
 
 	public void init() {
 		bufferGraphics = getGraphics();
-		d1.shuffle();
+		// d1.shuffle();
 		setSize(800, 900);
 		setBackground(bgColor);
 		addMouseListener(this);
@@ -121,22 +120,18 @@ public class Main extends Applet implements MouseListener, MouseMotionListener {
 
 	public void mouseMoved(MouseEvent e) {
 		// TODO Auto-generated method stub
-
 	}
 
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
-
 	}
 
 	public void mouseEntered(MouseEvent e) {
 		// TODO Auto-generated method stub
-
 	}
 
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
-
 	}
 
 	public void mousePressed(MouseEvent e) {
@@ -214,7 +209,6 @@ public class Main extends Applet implements MouseListener, MouseMotionListener {
 						d1.removeLast();
 						card.setCentre(d1.getCentreX() + 120, d1.getCentreY() + 20);
 						waste.addCard(card);
-						System.out.println(d1.deckSize());
 						repaint();
 					}
 
@@ -296,11 +290,13 @@ public class Main extends Applet implements MouseListener, MouseMotionListener {
 							score -= 15;
 							found_deck = -1;
 						}
+						master_deck = -1;
 						repaint();
 					}
 				}
 			}
 		}
+		int g = 0;
 		for (int i = 0; i < 4; i++) {
 			if (foundation[i].isPointInside(top.getCentreX(), top.getCentreY()) == true) {
 				if (top.deckSize() == 1) {
@@ -352,15 +348,45 @@ public class Main extends Applet implements MouseListener, MouseMotionListener {
 					}
 				}
 			}
+			if (foundation[i].isPointInside(top.getCentreX(), top.getCentreY()) == false) {
+				g += 1;
+			}
+			if (g == 4) {
+				if (master_deck == 0 && top.deckSize() > 0) {
+					top.bottomCard().setCentre(oldCentreX, oldCentreY);
+					waste.addCard(top.bottomCard());
+					top.removeBottom();
+					master_deck = -1;
+					repaint();
+				}
+				if (tab_deck > -1 && found_deck == -1 && top.deckSize() > 0) {
+					for (int j = 0; j < n; j++) {
+						top.cardAt(j).setCentre(oldCentreX, oldCentreY + (j * 30));
+						tableau[tab_deck].addCard(top.cardAt(j));
+					}
+					for (int j = 0; j < n; j++) {
+						top.removeBottom();
+					}
+					tab_deck = -1;
+					repaint();
+				}
+				if (tab_deck == -1 && found_deck > -1 && top.deckSize() > 0) {
+					top.bottomCard().setCentre(oldCentreX, oldCentreY);
+					foundation[found_deck].addCard(top.dealCard());
+					top.removeLast();
+					found_deck = -1;
+					repaint();
+				}
+			}
 		}
 		int d = 0;
-		int s = 0;
 		for (int k = 0; k < 7; k++) {
 			if (tableau[k].deckSize() == 0 && top.deckSize() > 0) {
 				if (tableau[k].isPointInside(top.getCentreX(), top.getCentreY()) == false
 						|| (tableau[k].isPointInside(top.getCentreX(), top.getCentreY()) == true
 								&& tableau[k].isValidEmpty(top.bottomCard()) == false)) {
 					d += 1;
+					System.out.println("HELLO");
 				}
 			}
 			if (tableau[k].deckSize() > 0 && top.deckSize() > 0) {
