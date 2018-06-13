@@ -163,39 +163,16 @@ public class Main extends Applet implements MouseListener, MouseMotionListener {
 
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
-		for (int i = 0; i < 7; i++) {
-			if (tableau[i].deckSize() > 0) {
-				CardClass card = (CardClass) tableau[i].dealCard();
-				if (card.isPointInside(e.getX(), e.getY()) == true && card.isFaceUp() == true
-						&& tableau[i].cardPosition(card) == tableau[i].deckSize() - 1) {
-					oldCentreX = card.getCentreX();
-					oldCentreY = card.getCentreY();
-					top.addCard(card);
-					tableau[i].remove(card);
-					top.isMovable(true);
-					tab_deck = i;
-					found_deck = -1;
-					top.setCentre(e.getX(), e.getY());
-					repaint();
-				}
-			}
-		}
-		for (int i = 0; i < 7; i++) {
-			int b = tableau[i].deckSize();
-			for (int j = 0; j < b; j++) {
-				CardClass card = tableau[i].cardAt(j);
-				if (tableau[i].cardPosition(card) != tableau[i].deckSize() - 1) {
-					if (card.isPoint(e.getX(), e.getY()) == true && card.isFaceUp() == true) {
+		if (e.getButton() == 1) {
+			for (int i = 0; i < 7; i++) {
+				if (tableau[i].deckSize() > 0) {
+					CardClass card = (CardClass) tableau[i].dealCard();
+					if (card.isPointInside(e.getX(), e.getY()) == true && card.isFaceUp() == true
+							&& tableau[i].cardPosition(card) == tableau[i].deckSize() - 1) {
 						oldCentreX = card.getCentreX();
 						oldCentreY = card.getCentreY();
-						for (int k = j; k < b; k++) {
-							top.addCard(tableau[i].cardAt(k));
-						}
-						for (int l = j; l < b; l++) {
-							tableau[i].removeCard(j);
-						}
-						b = tableau[i].deckSize();
-
+						top.addCard(card);
+						tableau[i].remove(card);
 						top.isMovable(true);
 						tab_deck = i;
 						found_deck = -1;
@@ -204,51 +181,76 @@ public class Main extends Applet implements MouseListener, MouseMotionListener {
 					}
 				}
 			}
-		}
+			for (int i = 0; i < 7; i++) {
+				int b = tableau[i].deckSize();
+				for (int j = 0; j < b; j++) {
+					CardClass card = tableau[i].cardAt(j);
+					if (tableau[i].cardPosition(card) != tableau[i].deckSize() - 1) {
+						if (card.isPoint(e.getX(), e.getY()) == true && card.isFaceUp() == true) {
+							oldCentreX = card.getCentreX();
+							oldCentreY = card.getCentreY();
+							for (int k = j; k < b; k++) {
+								top.addCard(tableau[i].cardAt(k));
+							}
+							for (int l = j; l < b; l++) {
+								tableau[i].removeCard(j);
+							}
+							b = tableau[i].deckSize();
 
-		for (int j = 0; j < 4; j++) {
-			if (foundation[j].isPointInside(e.getX(), e.getY()) == true && foundation[j].deckSize() > 0) {
-				oldCentreX = foundation[j].dealCard().getCentreX();
-				oldCentreY = foundation[j].dealCard().getCentreY();
-				top.addCard(foundation[j].dealCard());
-				foundation[j].removeLast();
+							top.isMovable(true);
+							tab_deck = i;
+							found_deck = -1;
+							top.setCentre(e.getX(), e.getY());
+							repaint();
+						}
+					}
+				}
+			}
+
+			for (int j = 0; j < 4; j++) {
+				if (foundation[j].isPointInside(e.getX(), e.getY()) == true && foundation[j].deckSize() > 0) {
+					oldCentreX = foundation[j].dealCard().getCentreX();
+					oldCentreY = foundation[j].dealCard().getCentreY();
+					top.addCard(foundation[j].dealCard());
+					foundation[j].removeLast();
+					top.isMovable(true);
+					found_deck = j;
+					tab_deck = -1;
+					top.setCentre(e.getX(), e.getY());
+					repaint();
+
+				}
+			}
+			if (d1.isPointInside(e.getX(), e.getY()) == true) {
+				if (d1.deckSize() + waste.deckSize() > 0) {
+					if (d1.deckSize() == 0) {
+						int k = waste.deckSize();
+						for (int i = 0; i < k; i++) {
+							d1.addCard(waste.dealCard());
+							waste.removeLast();
+						}
+						waste.erase(bufferGraphics);
+					}
+					if (d1.deckSize() >= 0) {
+						for (int i = 0; i < 1; i++) {
+							CardClass card = d1.dealCard();
+							d1.removeLast();
+							card.setCentre(d1.getCentreX() + 120, d1.getCentreY() + 20);
+							waste.addCard(card);
+							repaint();
+						}
+
+					}
+				}
+			}
+			if (waste.isPointInside(e.getX(), e.getY()) == true && waste.deckSize() > 0) {
+				oldCentreX = waste.dealCard().getCentreX();
+				oldCentreY = waste.dealCard().getCentreY();
+				top.addCard(waste.dealCard());
+				waste.removeLast();
+				master_deck = 0;
 				top.isMovable(true);
-				found_deck = j;
-				tab_deck = -1;
-				top.setCentre(e.getX(), e.getY());
-				repaint();
-
 			}
-		}
-		if (d1.isPointInside(e.getX(), e.getY()) == true) {
-			if (d1.deckSize() + waste.deckSize() > 0) {
-				if (d1.deckSize() == 0) {
-					int k = waste.deckSize();
-					for (int i = 0; i < k; i++) {
-						d1.addCard(waste.dealCard());
-						waste.removeLast();
-					}
-					waste.erase(bufferGraphics);
-				}
-				if (d1.deckSize() >= 0) {
-					for (int i = 0; i < 1; i++) {
-						CardClass card = d1.dealCard();
-						d1.removeLast();
-						card.setCentre(d1.getCentreX() + 120, d1.getCentreY() + 20);
-						waste.addCard(card);
-						repaint();
-					}
-
-				}
-			}
-		}
-		if (waste.isPointInside(e.getX(), e.getY()) == true && waste.deckSize() > 0) {
-			oldCentreX = waste.dealCard().getCentreX();
-			oldCentreY = waste.dealCard().getCentreY();
-			top.addCard(waste.dealCard());
-			waste.removeLast();
-			master_deck = 0;
-			top.isMovable(true);
 		}
 	}
 
