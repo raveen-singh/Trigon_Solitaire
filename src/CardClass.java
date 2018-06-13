@@ -14,9 +14,9 @@ public class CardClass extends ShapeClass {
 	private String iFaceValue;
 	private boolean iFaceUp = true;
 	private int iSuit;
-	private String[] val = {"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
+	private String[] val = { "A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K" };
 
-	static Font f1 = new Font("SanSerif", Font.PLAIN, 16);
+	static Font f1 = new Font("SanSerif", Font.BOLD, 16);
 
 	public void setSuitValue(int n) {
 		iSuit = n;
@@ -84,22 +84,38 @@ public class CardClass extends ShapeClass {
 			g.setFont(f1);
 			g.drawString(iFaceValue, CentreX - Width / 2 + Width / 8, CentreY - Height / 4);
 			if (iSuit == 0) {
+				g.setColor(Color.red);
+				g.drawString(iFaceValue, CentreX - Width / 2 + Width / 8, CentreY - Height / 4);
 				DiamondClass d1 = new DiamondClass((int) (Math.round(Height * 0.25)), CentreX, CentreY, Color.red);
+				DiamondClass d2 = new DiamondClass((int) (Math.round(Height * 0.15)), CentreX + Width / 4,
+						CentreY - Height / 3 + 3, Color.red);
 				d1.draw(g);
+				d2.draw(g);
 			}
 			if (iSuit == 2) {
+				g.setColor(Color.red);
+				g.drawString(iFaceValue, CentreX - Width / 2 + Width / 8, CentreY - Height / 4);
 				HeartClass h1 = new HeartClass((int) (Math.round(Height * 0.25)), CentreX, CentreY, Color.red);
+				HeartClass h2 = new HeartClass((int) (Math.round(Height * 0.15)), CentreX + Width / 4,
+						CentreY - Height / 3 + 3, Color.red);
 				h1.draw(g);
+				h2.draw(g);
 			}
 			if (iSuit == 3) {
 				SpadeClass s1 = new SpadeClass((int) (Math.round(Height * 0.25)), CentreX, CentreY, Color.black);
+				SpadeClass s2 = new SpadeClass((int) (Math.round(Height * 0.15)), CentreX + Width / 4,
+						CentreY - Height / 3 + 3, Color.black);
 				s1.draw(g);
+				s2.draw(g);
 			}
 			if (iSuit == 1)
 
 			{
 				ClubClass c1 = new ClubClass((int) (Math.round(Height * 0.25)), CentreX, CentreY, Color.black);
+				ClubClass c2 = new ClubClass((int) (Math.round(Height * 0.15)), CentreX + Width / 4,
+						CentreY - Height / 3 + 3, Color.black);
 				c1.draw(g);
+				c2.draw(g);
 			}
 
 		}

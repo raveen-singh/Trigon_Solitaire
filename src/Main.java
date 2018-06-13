@@ -24,14 +24,19 @@ public class Main extends Applet implements MouseListener, MouseMotionListener {
 	private int tab_deck = -1;
 	private int found_deck = -1;
 	private int score = 0;
+	private boolean isDrawn = true;
 
 	public void init() {
 		bufferGraphics = getGraphics();
 		d1.shuffle();
 		setSize(800, 900);
 		setBackground(bgColor);
-		addMouseListener(this);
-		addMouseMotionListener(this);
+		if (isDrawn == true) {
+			addMouseListener(this);
+			addMouseMotionListener(this);
+			isDrawn = false;
+		}
+
 		d1.setColor(Color.blue);
 		dim = getSize();
 		offscreen = createImage(dim.width, dim.height);
@@ -103,6 +108,10 @@ public class Main extends Applet implements MouseListener, MouseMotionListener {
 		top.draw(bufferGraphics);
 		g.drawImage(offscreen, 0, 0, this);
 
+	}
+
+	public void restart() {
+		init();
 	}
 
 	public void update(Graphics g) {
