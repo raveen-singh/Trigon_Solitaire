@@ -1,9 +1,8 @@
 import java.awt.*;
 import java.awt.event.*;
-
 import java.applet.*;
 
-public class Main extends Applet implements MouseListener, MouseMotionListener {
+public class Main extends Applet implements MouseListener, MouseMotionListener, ActionListener {
 
 	public Main() {
 		// TODO Auto-generated constructor stub
@@ -80,7 +79,7 @@ public class Main extends Applet implements MouseListener, MouseMotionListener {
 	}
 
 	public void paint(Graphics g) {
-		bufferGraphics.clearRect(0, 0, dim.width, dim.width);
+		bufferGraphics.clearRect(0, 0, dim.width, dim.height);
 		bufferGraphics.setColor(new Color(40, 160, 70));
 		bufferGraphics.fillRoundRect(45, 25, 70, 100, 5, 5);
 
@@ -132,34 +131,7 @@ public class Main extends Applet implements MouseListener, MouseMotionListener {
 	}
 
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-		// for (int i = 0; i < 7; i++) {
-		// if (tableau[i].deckSize() > 0) {
-		// CardClass card = (CardClass) tableau[i].dealCard();
-		// if (card.isPointInside(e.getX(), e.getY()) == true && card.isFaceUp() ==
-		// true) {
-		// System.out.println(card.getCentreX());
-		// System.out.println(card.getCentreY());
-		// System.out.println(card.getWidth());
-		// System.out.println(card.getHeight());
-		// for (int j = 0; j < 4; j++) {
-		// if (foundation[j].isValid(card) == true) {
-		// foundation[j].addCard(card);
-		// tableau[i].remove(card);
-		// score += 10;
-		// if (tableau[i].deckSize() > 0) {
-		// if (tableau[i].isFlip() == false) {
-		// tableau[i].flipUp();
-		// score += 5;
-		// }
-		// }
-		// break;
-		// }
-		// }
-		// repaint();
-		// }
-		// }
-		// }
+
 	}
 
 	public void mouseEntered(MouseEvent e) {
@@ -463,5 +435,10 @@ public class Main extends Applet implements MouseListener, MouseMotionListener {
 			}
 
 		}
+	}
+
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+
 	}
 }
