@@ -1,3 +1,3 @@
-# ICS4U_2018_FPROJ
+# Trigon_Solitaire
 
 ICS4U Final Project Solitaire Game
